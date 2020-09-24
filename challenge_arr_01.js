@@ -1,4 +1,4 @@
-/*********   CODE CHALLENGE HTML **********/
+/*********   CODE CHALLENGE Arrays **********/
 
 /*
 Aufgabe:
@@ -10,44 +10,81 @@ Verwenden Sie dafür die untenstehenden Arrays
 
 let controls = ["<",">","/"];
 let tags = ["html","head","head","body","h1","h1","p","p","body","html"];
- // Ziel --> "<html><head></head><body><p></p></body></html>"; 
 
-ausgabe(getHTML());
-function getHTML() {
-
+ausgabe(getHTML())
+function getHTML()
+{
     let htmlStr = "";
-
-    for (let i = 0; i < tags.length; i++) {
-        if (isOpenTag()) {// ???
-            htmlStr += getTag(tags[i],"open");
-        } else {
-            htmlStr += getTag(tags[i],"close");
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (htmlStr.includes(tags[i])) 
+        {
+            htmlStr += controls[0] + controls[2] + tags[i] + controls[1];
+        } 
+        else 
+        {
+            htmlStr += controls[0] + tags[i] + controls[1];
         }
+        
     }
-    
     return htmlStr;
 }
 
-function isOpenTag(params) {
-    return false;
+function getHTML2()
+{
+    let htmlStr = "";
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (htmlStr.includes(tags[i])) 
+        {
+            htmlStr += getTag(tags[i], "close");
+        } 
+        else 
+        {
+            htmlStr += getTag(tags[i], "open");
+        }
+    }
+    return htmlStr;
 }
 
-// Modul: Zusammenbau: <tagStr> --> Tests:
-/* ausgabe(getTag("p","open"));
-ausgabe(getTag("p","close"));
-ausgabe(getTag("p","jkjlkjlkjl")); */
-function getTag(tagName,flag) { // <p> | </p> 
+function getHTML3()
+{
+    let htmlStr = "";
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (isOpenTag(i) == i) 
+        {
+            htmlStr += getTag(tags[i], "open");
+        } 
+        else 
+        {
+            htmlStr += getTag(tags[i], "close");
+        }
+    }
+    return htmlStr;
+}
+
+function isOpenTag(index)
+{
+    //erscheint das tag zum ersten mal? --> open
+    
+    return index = tags.indexOf(tags[index]);
+}
+//ausgabe(isOpenTag(2))
+
+function getTag(tagName, flag)
+{
     switch (flag) {
         case "open":
-            return controls[0] + tagName + controls[1];     
+            return controls[0] + tagName + controls[1];
         case "close":
-            return controls[0] + controls[2] + tagName + controls[1];
-            default:
+            return controls[0] + controls[2] + tagName + controls[1];    
+        default:
             return "#";
     }
 }
 
-//ausgabe("hi");
-function ausgabe(outputStr) {
+function ausgabe(outputStr)
+{
     console.log(outputStr);
 }
