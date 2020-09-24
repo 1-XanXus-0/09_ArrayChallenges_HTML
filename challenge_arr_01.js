@@ -9,9 +9,9 @@ Verwenden Sie dafür die untenstehenden Arrays
 */
 
 let controls = ["<",">","/"];
-let tags = ["html","head","head","body","h1","h1","p","p","body","html"];
+let tags = ["html","head","head","body","h1","h1","p","p","p","p","body","html"];
 
-ausgabe(getHTML())
+ausgabe(getHTMLPolished())
 function getHTML()
 {
     let htmlStr = "";
@@ -28,6 +28,43 @@ function getHTML()
         
     }
     return htmlStr;
+}
+
+function getHTMLPolished()
+{
+    let htmlStr = "";
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (isEven(getDuplicateNumber(i))) 
+        {
+            htmlStr += controls[0] + controls[2] + tags[i] + controls[1];
+        } 
+        else 
+        {
+            htmlStr += controls[0] + tags[i] + controls[1];
+        }
+        
+    }
+    return htmlStr;
+}
+
+function isEven(value)
+{
+    if(value % 2 == 0)
+        return true; 
+    else
+        return false;
+}
+
+function getDuplicateNumber(index)
+{
+    let tmpValue = 1;
+    for(let i = 0; i < index; i++)
+    {
+        if (tags[i] == tags[index]) 
+            tmpValue++;
+    }
+    return tmpValue;
 }
 
 function getHTML2()
@@ -52,7 +89,7 @@ function getHTML3()
     let htmlStr = "";
     for(let i = 0; i < tags.length; i++)
     {
-        if (isOpenTag(i) == i) 
+        if (isOpenTag(i)) 
         {
             htmlStr += getTag(tags[i], "open");
         } 
@@ -70,6 +107,7 @@ function isOpenTag(index)
     
     return index = tags.indexOf(tags[index]);
 }
+
 //ausgabe(isOpenTag(2))
 
 function getTag(tagName, flag)
