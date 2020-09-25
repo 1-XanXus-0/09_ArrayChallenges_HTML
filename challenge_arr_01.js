@@ -10,9 +10,10 @@ Verwenden Sie dafür die untenstehenden Arrays
 
 let controls = ["<",">","/"];
 let tags = ["html","head","head","body","h1","h1","p","p","p","p","p","p","body","html"];
+let stack = [];
 
-ausgabe(getHTMLPolished())
-function getHTML()
+ausgabe(getHTML4())
+function getHTML() // überprüft mit .includes ob der erstellte String das element bereits beinhaltet ohne möglichkeit das array zu erweitern
 {
     let htmlStr = "";
     for(let i = 0; i < tags.length; i++)
@@ -30,7 +31,7 @@ function getHTML()
     return htmlStr;
 }
 
-function getHTMLPolished()
+function getHTMLPolished() // erzeugt den string durch überprüfung auf duplikate mit dem modulo operator
 {
     let htmlStr = "";
     for(let i = 0; i < tags.length; i++)
@@ -48,12 +49,12 @@ function getHTMLPolished()
     return htmlStr;
 }
 
-function isEven(value)
+function isEven(value) // überprüfft ob die anzahl an duplikaten gerade oder ungerade ist.
 {
     return (value % 2) == 0;
 }
 
-function getDuplicateNumber(index)
+function getDuplicateNumber(index) // ermittelt wie viele duplikate das element an dem Index in dem Array hat 
 {
     let tmpValue = 1;
     for(let i = 0; i < index; i++)
@@ -64,7 +65,7 @@ function getDuplicateNumber(index)
     return tmpValue;
 }
 
-function getHTML2()
+function getHTML2() // mit .includes und getTag funktion
 {
     let htmlStr = "";
     for(let i = 0; i < tags.length; i++)
@@ -81,7 +82,7 @@ function getHTML2()
     return htmlStr;
 }
 
-function getHTML3()
+function getHTML3() // mit indexOf ohne möglichkeit das array zu erweitern
 {
     let htmlStr = "";
     for(let i = 0; i < tags.length; i++)
@@ -98,7 +99,44 @@ function getHTML3()
     return htmlStr;
 }
 
-function isOpenTag(index)
+function getHTML4() // mit push und pop
+{
+    let htmlStr = "";
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (isOpenStack(i)) 
+        {
+            htmlStr += getTag(tags[i], "open");
+        } 
+        else 
+        {
+            htmlStr += getTag(tags[i], "close");
+        }
+    }
+    return htmlStr;
+}
+
+function isOpenStack(index) // prüfung ob das element im index in dem stack vorhanden ist
+{
+    // ist das Element neu?? // dann open und in den Stack
+    // Wenn nicht // dann close und raus aus dem Stack
+    let element = tags[index];
+    let cond    = true; //element neu??
+
+    if (stack.indexOf(element) == -1)  // Element neu... --> rein, open
+    {
+        stack.push(element);
+        return true;
+    } 
+    else // Element nicht neu --> raus, close
+    {
+        stack.pop();
+        return false;
+    }
+    return true;
+}
+
+function isOpenTag(index) // überprüft das element am index ob es im array schonmal vorkommt 
 {
     //erscheint das tag zum ersten mal? --> open
     
@@ -107,7 +145,7 @@ function isOpenTag(index)
 
 //ausgabe(isOpenTag(2))
 
-function getTag(tagName, flag)
+function getTag(tagName, flag) // gibt an welcher inhalt in den string eingefügt wird mithilfe eines boolean
 {
     switch (flag) {
         case "open":
@@ -119,7 +157,7 @@ function getTag(tagName, flag)
     }
 }
 
-function ausgabe(outputStr)
+function ausgabe(outputStr) // funktion zur ausgabe in die konsole
 {
     console.log(outputStr);
 }
