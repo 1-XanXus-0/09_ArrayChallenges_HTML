@@ -9,7 +9,7 @@ Verwenden Sie dafür die untenstehenden Arrays
 */
 
 let controls = ["<",">","/"];
-let tags = ["html","head","head","body","h1","h1","p","p","p","p","body","html"];
+let tags = ["html","head","head","body","h1","h1","p","p","p","p","p","p","body","html"];
 
 ausgabe(getHTMLPolished())
 function getHTML()
@@ -50,10 +50,7 @@ function getHTMLPolished()
 
 function isEven(value)
 {
-    if(value % 2 == 0)
-        return true; 
-    else
-        return false;
+    return (value % 2) == 0;
 }
 
 function getDuplicateNumber(index)
