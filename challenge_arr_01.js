@@ -8,11 +8,13 @@ einer HTML-Seite ausgibt:
 Verwenden Sie dafür die untenstehenden Arrays
 */
 
-let controls = ["<",">","/"];
-let tags = ["html","head","head","body","h1","h1","p","p","p","p","p","p","body","html"];
+let controls = ["<",">","/"]; //Array
+let controls2 = {open_o: "<", open_c1: "</", close: ">"}; // Objekt
+let tags = ["html","head","head","body","h1","h1","p","p","p","p","p","p","body","html"]; // array
 let stack = [];
+let tabCount = 0;
 
-ausgabe(getHTML4())
+ausgabe(getHTML5())
 function getHTML() // überprüft mit .includes ob der erstellte String das element bereits beinhaltet ohne möglichkeit das array zu erweitern
 {
     let htmlStr = "";
@@ -72,11 +74,11 @@ function getHTML2() // mit .includes und getTag funktion
     {
         if (htmlStr.includes(tags[i])) 
         {
-            htmlStr += getTag(tags[i], "close");
+            htmlStr += getTag(tags[i], "close") + "\n";
         } 
         else 
         {
-            htmlStr += getTag(tags[i], "open");
+            htmlStr += getTag(tags[i], "open") + "\n";
         }
     }
     return htmlStr;
@@ -116,6 +118,23 @@ function getHTML4() // mit push und pop
     return htmlStr;
 }
 
+function getHTML5() // mit push und pop + richtige strunktur eines HTML dokuments (new line + tabs)
+{
+    let htmlStr = "";
+    for(let i = 0; i < tags.length; i++)
+    {
+        if (isOpenStack2(i)) 
+        {
+            htmlStr += getTabs() + getTag2(tags[i], "open") + "\n";
+        } 
+        else 
+        {
+            htmlStr += getTabs() + getTag2(tags[i], "close") + "\n";
+        }
+    }
+    return htmlStr;
+}
+
 function isOpenStack(index) // prüfung ob das element im index in dem stack vorhanden ist
 {
     // ist das Element neu?? // dann open und in den Stack
@@ -131,6 +150,28 @@ function isOpenStack(index) // prüfung ob das element im index in dem stack vor
     else // Element nicht neu --> raus, close
     {
         stack.pop();
+        return false;
+    }
+    return true;
+}
+
+function isOpenStack2(index) // prüfung ob das element im index in dem stack vorhanden ist + ermitlung der benötigten tabs
+{
+    // ist das Element neu?? // dann open und in den Stack
+    // Wenn nicht // dann close und raus aus dem Stack
+    let element = tags[index];
+    let cond    = true; //element neu??
+
+    if (stack.indexOf(element) == -1)  // Element neu... --> rein, open
+    {
+        tabCount = stack.length;
+        stack.push(element);
+        return true;
+    } 
+    else // Element nicht neu --> raus, close
+    {
+        stack.pop();
+        tabCount = stack.length;
         return false;
     }
     return true;
@@ -155,6 +196,28 @@ function getTag(tagName, flag) // gibt an welcher inhalt in den string eingefüg
         default:
             return "#";
     }
+}
+
+function getTag2(tagName, flag) // wie getTag aber mit einem Objekt anstatt eines Arrays
+{
+    switch (flag) {
+        case "open":
+            return controls2.open_o + tagName + controls2.close;
+        case "close":
+            return controls2.open_c1 + tagName + controls2.close;    
+        default:
+            return "#";
+    }
+}
+
+function getTabs() // gibt die anzahl des tabs zurück die verwendet werden
+{   
+    let tabStr = "";
+    for (let i = 0; i < tabCount; i++) 
+    {
+        tabStr += "\t";
+    }
+    return tabStr;    
 }
 
 function ausgabe(outputStr) // funktion zur ausgabe in die konsole
